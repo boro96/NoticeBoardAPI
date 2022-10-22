@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoticeBoardAPI", "NoticeBoardAPI\NoticeBoardAPI.csproj", "{FDDA5BDA-DF34-4E19-ACA9-31F0796D308C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDDA5BDA-DF34-4E19-ACA9-31F0796D308C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDDA5BDA-DF34-4E19-ACA9-31F0796D308C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDDA5BDA-DF34-4E19-ACA9-31F0796D308C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDDA5BDA-DF34-4E19-ACA9-31F0796D308C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF82B1EE-5111-49B5-AB27-996DA56A9A28}
+	EndGlobalSection
+EndGlobal
