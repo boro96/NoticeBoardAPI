@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NoticeBoardAPI;
 using NoticeBoardAPI.Entities;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<NoticeBoardDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"));
 });
 builder.Services.AddScoped<NoticeBoardSeeder>();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
