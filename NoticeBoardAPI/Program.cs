@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using NoticeBoardAPI;
 using NoticeBoardAPI.Entities;
+using NoticeBoardAPI.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<NoticeBoardDbContext>(options =>
 });
 builder.Services.AddScoped<NoticeBoardSeeder>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddScoped<IAdvertService, AdvertService>();
 
 var app = builder.Build();
 

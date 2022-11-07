@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NoticeBoardAPI.Entities;
+using NoticeBoardAPI.Models;
+using NoticeBoardAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,16 @@ namespace NoticeBoardAPI.Controllers
     [Route("api/adverts")]
     public class AdvertController : ControllerBase
     {
-        public AdvertController()
-        {
+        private readonly IAdvertService _advertService;
 
+        public AdvertController(IAdvertService advertService)
+        {
+            _advertService = advertService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<Advert>> GetAll()
+        public ActionResult<IEnumerable<AdvertDto>> GetAll()
         {
-            var adverts = 
+            var adverts = _advertService.GetAll();
         }
     }
 }
