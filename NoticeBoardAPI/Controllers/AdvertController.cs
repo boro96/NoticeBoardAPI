@@ -21,7 +21,20 @@ namespace NoticeBoardAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<AdvertDto>> GetAll()
         {
-            var adverts = _advertService.GetAll();
+            var advertDtos = _advertService.GetAll();
+
+            return Ok(advertDtos);
+        }
+        [HttpGet("{id}")]
+        public ActionResult<AdvertDto> Get([FromRoute] int id)
+        {
+            var advert = _advertService.GetById(id);
+
+            if(advert is null)
+            {
+                return NotFound();
+            }
+            return Ok(advert);
         }
     }
 }
