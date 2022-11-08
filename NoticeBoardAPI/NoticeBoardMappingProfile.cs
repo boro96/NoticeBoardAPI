@@ -20,6 +20,12 @@ namespace NoticeBoardAPI
             CreateMap<Comment, CommentDto>()
                 .ForMember(a => a.FirstName, c => c.MapFrom(s => s.User.FirstName))
                 .ForMember(a => a.LastName, c => c.MapFrom(s => s.User.LastName));
+
+            CreateMap<RegisterUserDto, User>()
+                .ForMember(a => a.Address, c => c.MapFrom(b => new Address
+                {
+                    City = b.City, Street = b.Street, ApartamentNumber = b.ApartamentNumber, PostalCode = b.PostalCode
+                }));
         }
 
     }

@@ -16,6 +16,7 @@ builder.Services.AddDbContext<NoticeBoardDbContext>(options =>
 builder.Services.AddScoped<NoticeBoardSeeder>();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 builder.Services.AddScoped<IAdvertService, AdvertService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 var app = builder.Build();
 
