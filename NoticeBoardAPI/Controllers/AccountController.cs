@@ -25,5 +25,6 @@ namespace NoticeBoardAPI.Controllers
             _accountService.Register(dto);
             return Ok();
         }
+        
     }
 }
