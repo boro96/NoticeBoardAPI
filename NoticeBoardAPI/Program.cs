@@ -54,6 +54,7 @@ builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUsedDtoValidator>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton(authenticationSettings);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -25,6 +25,10 @@ namespace NoticeBoardAPI.Controllers
             _accountService.Register(dto);
             return Ok();
         }
-        
+        [HttpPost("login")]
+        public ActionResult Login([FromBody] LoginDto dto)
+        {
+
+        }
     }
 }
