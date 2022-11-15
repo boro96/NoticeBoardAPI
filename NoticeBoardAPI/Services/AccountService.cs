@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using NoticeBoardAPI.Entities;
+using NoticeBoardAPI.Exceptions;
 using NoticeBoardAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace NoticeBoardAPI.Services
     public interface IAccountService
     {
         void Register(RegisterUserDto dto);
+        string GenerateJwt(LoginDto dto);
     }
 
     public class AccountService : IAccountService
@@ -42,17 +44,18 @@ namespace NoticeBoardAPI.Services
             _context.Users.Add(newUser);
             _context.SaveChanges();
         }
+
         public string GenerateJwt(LoginDto dto)
         {
             var user = _context.Users.FirstOrDefault(a => a.Email == dto.Email);
             if(user is null)
             {
-                throw new BadHttpRequestException("Email or password is invalid");
+                throw new BadRequestException("Email or password is invalid");
             }
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
             if(result == PasswordVerificationResult.Failed)
             {
-                throw new BadHttpRequestException("Email or password is invalid");
+                throw new BadRequestException("Email or password is invalid");
             }
 
             var claims = new List<Claim>()
@@ -72,6 +75,9 @@ namespace NoticeBoardAPI.Services
                 claims,
                 expires: expires,
                 signingCredentials: cred);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.WriteToken(token);
         }
     }
 }
