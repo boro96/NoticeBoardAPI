@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using NoticeBoardAPI.Entities;
+using NoticeBoardAPI.Exceptions;
 using NoticeBoardAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -47,8 +48,10 @@ namespace NoticeBoardAPI.Services
                 .Include(c => c.Comments)
                 .FirstOrDefault(d => d.Id == id);
 
-            if (advert is null) return null;
-
+            if (advert is null)
+            {
+                throw new NotFoundException("Advert doesnt exist");
+            }
             var advertDto = _mapper.Map<AdvertDto>(advert);
 
             return advertDto; 

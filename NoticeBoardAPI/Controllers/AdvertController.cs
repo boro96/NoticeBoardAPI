@@ -30,10 +30,6 @@ namespace NoticeBoardAPI.Controllers
         {
             var advert = _advertService.GetById(id);
 
-            if(advert is null)
-            {
-                return NotFound();
-            }
             return Ok(advert);
         }
     }
