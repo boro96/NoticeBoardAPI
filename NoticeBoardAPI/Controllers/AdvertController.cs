@@ -32,5 +32,11 @@ namespace NoticeBoardAPI.Controllers
 
             return Ok(advert);
         }
+
+        [HttpPost]
+        public ActionResult CreateAdvert([FromBody] CreateAdvertDto dto)
+        {
+            return Ok(dto);
+        }
     }
 }

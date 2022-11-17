@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoticeBoardAPI.Entities;
 
@@ -11,9 +12,10 @@ using NoticeBoardAPI.Entities;
 namespace NoticeBoardAPI.Migrations
 {
     [DbContext(typeof(NoticeBoardDbContext))]
-    partial class NoticeBoardDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221117120959_AddedHasDefaultValueSqlForPublicationDateColumn")]
+    partial class AddedHasDefaultValueSqlForPublicationDateColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

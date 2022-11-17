@@ -72,6 +72,7 @@ namespace NoticeBoardAPI.Entities
             {
                 advert.Property(a => a.Description).HasColumnType("varchar(500)").IsRequired();
                 advert.Property(b => b.PublicationDate).HasPrecision(3);
+                advert.Property(c => c.PublicationDate).HasDefaultValueSql("getdate()");
             });
             modelBuilder.Entity<Comment>(comment =>
             {
