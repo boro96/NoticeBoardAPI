@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace NoticeBoardAPI.Controllers
 {
     [Route("api/adverts")]
+    [ApiController]
     public class AdvertController : ControllerBase
     {
         private readonly IAdvertService _advertService;
@@ -21,10 +22,10 @@ namespace NoticeBoardAPI.Controllers
             _advertService = advertService;
         }
         [HttpGet]
-        [Authorize(Policy ="HasNationality")]
+        [Authorize(Policy = "HasNationality")]
         public ActionResult<IEnumerable<AdvertDto>> GetAll()
         {
-            
+
             var advertDtos = _advertService.GetAll();
 
             return Ok(advertDtos);
@@ -41,9 +42,23 @@ namespace NoticeBoardAPI.Controllers
         public ActionResult CreateAdvert([FromBody] CreateAdvertDto dto)
         {
             var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            var advert = _advertService.Create(dto, userId);
+            var advertId = _advertService.Create(dto, userId);
+
+            return Created($"/api/adverts/{advertId}", null);
+        }
+        [HttpPut("{id}")]
+        public ActionResult UpdateAdvert([FromBody] UpdateAdvertDto dto, [FromRoute] int id)
+        {
+            _advertService.Update(dto, id);
 
             return Ok();
+        }
+        [HttpDelete]
+        public ActionResult DeleteAdvert([FromRoute] int id)
+        {
+            _advertService.Delete(id);
+
+            return NoContent();
         }
     }
 }
