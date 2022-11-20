@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NoticeBoardAPI.Models;
 using NoticeBoardAPI.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,8 +21,10 @@ namespace NoticeBoardAPI.Controllers
             _advertService = advertService;
         }
         [HttpGet]
+        [Authorize(Policy ="HasNationality")]
         public ActionResult<IEnumerable<AdvertDto>> GetAll()
         {
+            
             var advertDtos = _advertService.GetAll();
 
             return Ok(advertDtos);
@@ -36,7 +40,10 @@ namespace NoticeBoardAPI.Controllers
         [HttpPost]
         public ActionResult CreateAdvert([FromBody] CreateAdvertDto dto)
         {
-            return Ok(dto);
+            var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
+            var advert = _advertService.Create(dto, userId);
+
+            return Ok();
         }
     }
 }

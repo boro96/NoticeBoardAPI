@@ -10,7 +10,7 @@ namespace NoticeBoardAPI.Models.Validators
 {
     public class CreateAdvertDtoValidator : AbstractValidator<CreateAdvertDto>
     {
-        public CreateAdvertDtoValidator(NoticeBoardDbContext context)
+        public CreateAdvertDtoValidator(NoticeBoardDbContext dbContext)
         {
             RuleFor(a => a.Description)
                 .NotEmpty()
@@ -19,7 +19,12 @@ namespace NoticeBoardAPI.Models.Validators
             RuleFor(b => b.CategoryName)
                 .Custom((value, context) =>
                 {
+                    var categories = dbContext.Categories.Any(a => a.Name.ToLower() == value.ToLower());
                     
+                    if(!categories)
+                    {
+                        context.AddFailure("CategoryName", $"Choose one from: {dbContext.Categories.ToList()}");
+                    }
                 });
         }
     }

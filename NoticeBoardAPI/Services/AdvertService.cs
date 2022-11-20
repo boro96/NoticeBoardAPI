@@ -15,6 +15,7 @@ namespace NoticeBoardAPI.Services
     {
         AdvertDto GetById(int id);
         IEnumerable<AdvertDto> GetAll();
+        void Create(CreateAdvertDto dto, int userId);
     }
 
     public class AdvertService : IAdvertService
@@ -55,6 +56,19 @@ namespace NoticeBoardAPI.Services
             var advertDto = _mapper.Map<AdvertDto>(advert);
 
             return advertDto; 
+        }
+
+        public void Create(CreateAdvertDto dto, int userId)
+        {
+            var result = _dbContext.Categories.FirstOrDefault(a => a.Name.ToLower() == dto.CategoryName.ToLower());
+            var advert = new Advert()
+            {
+                CategoryId = result.Id,
+                Description = dto.Description,
+                UserId = userId
+            };
+            _dbContext.Adverts.Add(advert);
+            _dbContext.SaveChanges();
         }
     }
 }

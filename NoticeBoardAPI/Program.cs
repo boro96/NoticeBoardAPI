@@ -1,10 +1,12 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using NLog.Web;
 using NoticeBoardAPI;
+using NoticeBoardAPI.Authorization;
 using NoticeBoardAPI.Entities;
 using NoticeBoardAPI.Middleware;
 using NoticeBoardAPI.Models;
@@ -35,11 +37,18 @@ builder.Services.AddAuthentication(option =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey))
     };
 });
+
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy("HasNationality", builder => builder.RequireClaim("Nationality", "Polish", "German", "Spanish"));
+    option.AddPolicy("Atleast18", builder => builder.AddRequirements(new MinimumAgeRequirement(18)));
+});
+builder.Services.AddScoped<IAuthorizationHandler, MinimumAgeRequirementHandler>();
+builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHandler>();
 //NLog: Setup
 builder.Logging.ClearProviders();
 builder.Logging.SetMinimumLevel(LogLevel.Trace);
 builder.Host.UseNLog();
-
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddDbContext<NoticeBoardDbContext>(options =>
@@ -70,6 +79,7 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "NoticeBoard API");
 });
+
 app.UseAuthorization();
 
 app.MapControllers();
