@@ -64,6 +64,8 @@ builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUsedDtoValidator
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(authenticationSettings);
+builder.Services.AddScoped<IUserContextService, UserContextService>();
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

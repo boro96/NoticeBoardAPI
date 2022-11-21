@@ -41,8 +41,7 @@ namespace NoticeBoardAPI.Controllers
         [HttpPost]
         public ActionResult CreateAdvert([FromBody] CreateAdvertDto dto)
         {
-            var userId = int.Parse(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value);
-            var advertId = _advertService.Create(dto, userId);
+            var advertId = _advertService.Create(dto);
 
             return Created($"/api/adverts/{advertId}", null);
         }

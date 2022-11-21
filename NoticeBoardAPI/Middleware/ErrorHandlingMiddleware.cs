@@ -26,6 +26,11 @@ namespace NoticeBoardAPI.Middleware
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(notFoundException.Message);
             }
+            catch(ForbiddenException forbiddenException)
+            {
+                context.Response.StatusCode = 403;
+                await context.Response.WriteAsync(forbiddenException.Message);
+            }
             catch(BadRequestException badRequestException)
             {
                 context.Response.StatusCode = 400;
