@@ -69,7 +69,7 @@ namespace NoticeBoardAPI.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<DateTime>("PublicationDate")
+                    b.Property<DateTime?>("PublicationDate")
                         .ValueGeneratedOnAdd()
                         .HasPrecision(3)
                         .HasColumnType("datetime2(3)")
@@ -120,7 +120,7 @@ namespace NoticeBoardAPI.Migrations
                         .HasMaxLength(600)
                         .HasColumnType("nvarchar(600)");
 
-                    b.Property<DateTime>("PublicationDate")
+                    b.Property<DateTime?>("PublicationDate")
                         .HasPrecision(3)
                         .HasColumnType("datetime2(3)");
 
@@ -208,7 +208,7 @@ namespace NoticeBoardAPI.Migrations
                     b.HasOne("NoticeBoardAPI.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Advert");

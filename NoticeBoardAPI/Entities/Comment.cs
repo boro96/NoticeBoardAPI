@@ -14,6 +14,6 @@ namespace NoticeBoardAPI.Entities
         public Advert Advert { get; set; }
         public int AdvertId { get; set; }
         public string Message { get; set; }
-        public DateTime PublicationDate { get; set; }
+        public DateTime? PublicationDate { get; set; }
     }
 }

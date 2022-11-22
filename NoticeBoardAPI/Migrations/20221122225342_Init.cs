@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace NoticeBoardAPI.Migrations
 {
-    public partial class InitDataBase : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,7 +72,7 @@ namespace NoticeBoardAPI.Migrations
                     UserId = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "varchar(500)", nullable: false),
-                    PublicationDate = table.Column<DateTime>(type: "datetime2(3)", precision: 3, nullable: false)
+                    PublicationDate = table.Column<DateTime>(type: "datetime2(3)", precision: 3, nullable: true, defaultValueSql: "getdate()")
                 },
                 constraints: table =>
                 {
@@ -115,7 +115,8 @@ namespace NoticeBoardAPI.Migrations
                         name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

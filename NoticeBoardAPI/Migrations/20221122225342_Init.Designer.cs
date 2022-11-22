@@ -12,8 +12,8 @@ using NoticeBoardAPI.Entities;
 namespace NoticeBoardAPI.Migrations
 {
     [DbContext(typeof(NoticeBoardDbContext))]
-    [Migration("20221117120959_AddedHasDefaultValueSqlForPublicationDateColumn")]
-    partial class AddedHasDefaultValueSqlForPublicationDateColumn
+    [Migration("20221122225342_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -71,7 +71,7 @@ namespace NoticeBoardAPI.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(500)");
 
-                    b.Property<DateTime>("PublicationDate")
+                    b.Property<DateTime?>("PublicationDate")
                         .ValueGeneratedOnAdd()
                         .HasPrecision(3)
                         .HasColumnType("datetime2(3)")
@@ -210,7 +210,7 @@ namespace NoticeBoardAPI.Migrations
                     b.HasOne("NoticeBoardAPI.Entities.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Advert");

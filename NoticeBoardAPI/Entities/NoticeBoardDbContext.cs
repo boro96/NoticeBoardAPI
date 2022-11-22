@@ -41,8 +41,8 @@ namespace NoticeBoardAPI.Entities
                 .HasMany(a => a.Comments)
                 .WithOne(b => b.User)
                 .HasForeignKey(foreignKey => foreignKey.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-               
+                .OnDelete(DeleteBehavior.Restrict);
+                
 
             modelBuilder.Entity<Comment>()
                 .HasOne(a => a.Advert)

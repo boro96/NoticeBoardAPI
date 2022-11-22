@@ -49,6 +49,7 @@ builder.Services.AddScoped<IAuthorizationHandler, ResourceOperationRequirementHa
 builder.Logging.ClearProviders();
 builder.Logging.SetMinimumLevel(LogLevel.Trace);
 builder.Host.UseNLog();
+
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddDbContext<NoticeBoardDbContext>(options =>
@@ -61,6 +62,8 @@ builder.Services.AddScoped<IAdvertService, AdvertService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUsedDtoValidator>();
+builder.Services.AddScoped<IValidator<CreateAdvertDto>, CreateAdvertDtoValidator>();
+builder.Services.AddScoped<IValidator<UpdateAdvertDto>, UpdateAdvertDtoValidator>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(authenticationSettings);

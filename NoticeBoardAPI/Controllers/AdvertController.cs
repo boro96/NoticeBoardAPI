@@ -13,6 +13,7 @@ namespace NoticeBoardAPI.Controllers
 {
     [Route("api/adverts")]
     [ApiController]
+    [Authorize]
     public class AdvertController : ControllerBase
     {
         private readonly IAdvertService _advertService;
@@ -22,7 +23,7 @@ namespace NoticeBoardAPI.Controllers
             _advertService = advertService;
         }
         [HttpGet]
-        [Authorize(Policy = "HasNationality")]
+        [Authorize(Policy = "Atleast18")]
         public ActionResult<IEnumerable<AdvertDto>> GetAll()
         {
 
@@ -52,7 +53,7 @@ namespace NoticeBoardAPI.Controllers
 
             return Ok();
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult DeleteAdvert([FromRoute] int id)
         {
             _advertService.Delete(id);

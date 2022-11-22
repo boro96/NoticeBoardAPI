@@ -14,7 +14,7 @@ namespace NoticeBoardAPI.Entities
         public Category Category { get; set; }
         public int CategoryId { get; set; }
         public string Description { get; set; }
-        public DateTime PublicationDate { get; set; }
+        public DateTime? PublicationDate { get; set; }
 
         //Navigation Properties
         public List<Comment> Comments { get; set; } = new List<Comment>();
