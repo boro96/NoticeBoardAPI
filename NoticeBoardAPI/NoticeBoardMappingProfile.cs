@@ -28,6 +28,7 @@ namespace NoticeBoardAPI
                     City = b.City, Street = b.Street, ApartamentNumber = b.ApartamentNumber, PostalCode = b.PostalCode
                 }));
 
+            CreateMap<CreateCommentDto, Comment>();
         }
 
     }

@@ -77,7 +77,10 @@ namespace NoticeBoardAPI.Entities
             modelBuilder.Entity<Comment>(comment =>
             {
                 comment.Property(a => a.Message).HasMaxLength(600).IsRequired();
-                comment.Property(b => b.PublicationDate).HasPrecision(3);
+                comment.Property(b => b.PublicationDate)
+                .HasPrecision(3)
+                .HasDefaultValueSql("getdate()");
+                
             });
         }
     }
