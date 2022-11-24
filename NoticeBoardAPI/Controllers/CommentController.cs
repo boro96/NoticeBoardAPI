@@ -42,5 +42,12 @@ namespace NoticeBoardAPI.Controllers
 
             return Ok(commentDto);
         }
+        [HttpDelete("{commentId}")]
+        public ActionResult DeleteComment([FromRoute] int advertId, [FromRoute] int commentId)
+        {
+            _commentService.Delete(advertId, commentId);
+
+            return NoContent();
+        }
     }
 }

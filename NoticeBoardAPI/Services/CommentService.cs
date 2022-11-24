@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using NoticeBoardAPI.Authorization;
 using NoticeBoardAPI.Entities;
 using NoticeBoardAPI.Exceptions;
 using NoticeBoardAPI.Models;
@@ -16,6 +18,7 @@ namespace NoticeBoardAPI.Services
         int Create(int advertId, CreateCommentDto dto);
         IEnumerable<CommentDto> GetAll(int advertId);
         CommentDto GetById(int advertId, int commentId);
+        void Delete(int advertId, int commentId);
     }
 
     public class CommentService : ICommentService
@@ -23,12 +26,15 @@ namespace NoticeBoardAPI.Services
         private readonly NoticeBoardDbContext _dbContext;
         private readonly IMapper _mapper;
         private readonly IUserContextService _contextService;
+        private readonly IAuthorizationService _authorizationService;
 
-        public CommentService(NoticeBoardDbContext dbContext, IMapper mapper, IUserContextService contextService)
+        public CommentService(NoticeBoardDbContext dbContext, IMapper mapper,
+            IUserContextService contextService, IAuthorizationService authorizationService)
         {
             _dbContext = dbContext;
             _mapper = mapper;
             _contextService = contextService;
+            _authorizationService = authorizationService;
         }
         public int Create(int advertId, CreateCommentDto dto)
         {
@@ -80,6 +86,29 @@ namespace NoticeBoardAPI.Services
 
             return commentDto;
             
+        }
+        public void Delete(int advertId, int commentId)
+        {
+            var advert = _dbContext.Adverts.FirstOrDefault(a => a.Id == advertId);
+            if(advert is null)
+            {
+                throw new NotFoundException("Advert doesnt exist");
+            }
+            var comment = _dbContext.Comments.FirstOrDefault(b => b.Id == commentId);
+            if(comment is null || comment.AdvertId != advertId)
+            {
+                throw new NotFoundException("Comment doesnt exist");
+            }
+            var authorizationResult = _authorizationService.AuthorizeAsync(_contextService.User, comment,
+                new ResourceOperationRequirement(ResourceOperation.Delete)).Result;
+
+            if(!authorizationResult.Succeeded)
+            {
+                throw new ForbiddenException("You dont have access");
+            }
+
+            _dbContext.Comments.Remove(comment);
+            _dbContext.SaveChanges();
         }
     }
 }
