@@ -15,6 +15,6 @@ namespace NoticeBoardAPI.Models
         public string CategoryName { get; set; }
         public string Description { get; set; }
         public DateTime PublicationDate { get; set; }
-        public List<Comment> Comments { get; set; }
+        public List<CommentDto> Comments { get; set; }
     }
 }

@@ -23,11 +23,10 @@ namespace NoticeBoardAPI.Controllers
             _advertService = advertService;
         }
         [HttpGet]
-        [Authorize(Policy = "Atleast18")]
-        public ActionResult<IEnumerable<AdvertDto>> GetAll()
+        public ActionResult<IEnumerable<AdvertDto>> GetAll([FromQuery]string searchPhrase)
         {
 
-            var advertDtos = _advertService.GetAll();
+            var advertDtos = _advertService.GetAll(searchPhrase);
 
             return Ok(advertDtos);
         }

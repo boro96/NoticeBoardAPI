@@ -17,7 +17,7 @@ namespace NoticeBoardAPI.Services
     public interface IAdvertService
     {
         AdvertDto GetById(int id);
-        IEnumerable<AdvertDto> GetAll();
+        IEnumerable<AdvertDto> GetAll(string searchPhrase);
         int Create(CreateAdvertDto dto);
         void Delete(int id);
         void Update(UpdateAdvertDto dto, int id);
@@ -38,12 +38,15 @@ namespace NoticeBoardAPI.Services
             _authorizationService = authorizationService;
             _contextService = contextService;
         }
-        public IEnumerable<AdvertDto> GetAll()
+        public IEnumerable<AdvertDto> GetAll(string searchPhrase)
         {
             var adverts = _dbContext.Adverts
                 .Include(a => a.User)
                 .Include(b => b.Category)
                 .Include(c => c.Comments)
+                .ThenInclude(a => a.User)
+                .Where(a => a.Category.Name.ToLower().Contains(searchPhrase.ToLower())
+                || a.Description.ToLower().Contains(searchPhrase.ToLower()))
                 .ToList();
 
 
@@ -57,6 +60,7 @@ namespace NoticeBoardAPI.Services
                 .Include(a => a.User)
                 .Include(b => b.Category)
                 .Include(c => c.Comments)
+                .ThenInclude(a => a.User)
                 .FirstOrDefault(d => d.Id == id);
 
             if (advert is null)
