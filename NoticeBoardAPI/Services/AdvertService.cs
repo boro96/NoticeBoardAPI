@@ -17,7 +17,7 @@ namespace NoticeBoardAPI.Services
     public interface IAdvertService
     {
         AdvertDto GetById(int id);
-        IEnumerable<AdvertDto> GetAll(string searchPhrase);
+        PagedResult<AdvertDto> GetAll(AdvertQuery query);
         int Create(CreateAdvertDto dto);
         void Delete(int id);
         void Update(UpdateAdvertDto dto, int id);
@@ -38,20 +38,36 @@ namespace NoticeBoardAPI.Services
             _authorizationService = authorizationService;
             _contextService = contextService;
         }
-        public IEnumerable<AdvertDto> GetAll(string searchPhrase)
+        public PagedResult<AdvertDto> GetAll(AdvertQuery query)
         {
-            var adverts = _dbContext.Adverts
+            var baseQuery = _dbContext.Adverts
                 .Include(a => a.User)
                 .Include(b => b.Category)
                 .Include(c => c.Comments)
                 .ThenInclude(a => a.User)
-                .Where(a => a.Category.Name.ToLower().Contains(searchPhrase.ToLower())
-                || a.Description.ToLower().Contains(searchPhrase.ToLower()))
+                .Where(a => query.searchPhrase == null || (a.Category.Name.ToLower().Contains(query.searchPhrase.ToLower())
+                || a.Description.ToLower().Contains(query.searchPhrase.ToLower())));
+
+
+            var adverts = baseQuery
+                .Include(a => a.User)
+                .Include(b => b.Category)
+                .Include(c => c.Comments)
+                .ThenInclude(a => a.User)
+                .Where(a => query.searchPhrase == null || (a.Category.Name.ToLower().Contains(query.searchPhrase.ToLower())
+                || a.Description.ToLower().Contains(query.searchPhrase.ToLower())))
+                .Skip(query.pageSize * (query.pageNumber-1))
+                .Take(query.pageSize)
                 .ToList();
 
 
             var advertsDto = _mapper.Map<List<AdvertDto>>(adverts);
-            return advertsDto;
+
+            var totalCount = baseQuery.Count();
+
+            var result = new PagedResult<AdvertDto>(advertsDto,totalCount ,query.pageSize, query.pageNumber);
+
+            return result;
         }
 
         public AdvertDto GetById(int id)

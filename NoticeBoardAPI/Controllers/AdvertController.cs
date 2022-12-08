@@ -23,10 +23,10 @@ namespace NoticeBoardAPI.Controllers
             _advertService = advertService;
         }
         [HttpGet]
-        public ActionResult<IEnumerable<AdvertDto>> GetAll([FromQuery]string searchPhrase)
+        public ActionResult<IEnumerable<AdvertDto>> GetAll([FromQuery] AdvertQuery query)
         {
 
-            var advertDtos = _advertService.GetAll(searchPhrase);
+            var advertDtos = _advertService.GetAll(query);
 
             return Ok(advertDtos);
         }
