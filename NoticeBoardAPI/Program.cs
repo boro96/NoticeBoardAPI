@@ -67,6 +67,7 @@ builder.Services.AddScoped<IValidator<RegisterUserDto>, RegisterUsedDtoValidator
 builder.Services.AddScoped<IValidator<CreateAdvertDto>, CreateAdvertDtoValidator>();
 builder.Services.AddScoped<IValidator<UpdateAdvertDto>, UpdateAdvertDtoValidator>();
 builder.Services.AddScoped<IValidator<CreateCommentDto>, CreateCommentDtoValidator>();
+builder.Services.AddScoped<IValidator<AdvertQuery>, AdvertQueryValidator>();
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton(authenticationSettings);
